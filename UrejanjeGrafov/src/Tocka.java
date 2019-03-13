@@ -5,6 +5,7 @@ public class Tocka {
 	//KOMPONENTE
 	String ime;
 	Set<Tocka> sosedi; //genericen tip<..>, sosedje tock so tocke
+	double x,y;
 	
 	//KONSTRUKTOR
 	public Tocka(String ime) { //konstruktorji nimajo tipa pred imenom
@@ -13,7 +14,8 @@ public class Tocka {
 		sosedi = new HashSet<Tocka>(); //oklepaji, ker je to klic konstruktorja
 		//Set ni razred je le vmesnik, zato novega objekta Set ne moremo naredit,rabimo implementacijo vmesnika
 		//--> HashSet
-		//tudi lahko: this.sosedi, èe nimamo 2 isti imeni, raje ne uporabljamo 
+		//tudi lahko: this.sosedi, èe nimamo 2 isti imeni, raje ne uporabljamo
+		x = y = 0;
 	}
 	
 	//METODE

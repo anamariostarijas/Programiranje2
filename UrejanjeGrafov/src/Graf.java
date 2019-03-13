@@ -129,5 +129,18 @@ public class Graf {
 		}
 	}
 	
+	public void razporedi(double x, double y, double r) {
+		int n = tocke.size();
+		int i = 0;
+		for (Tocka v : tocke.values()) {
+			double kot = 2*i*Math.PI/n;
+			v.x = x + r*Math.cos(kot);
+			v.y = y + r*Math.sin(kot); 		//koordinatna os y je obrnjena navzdol
+			++i;
+		}
+	}
+	
+	
+	
 	
 }
