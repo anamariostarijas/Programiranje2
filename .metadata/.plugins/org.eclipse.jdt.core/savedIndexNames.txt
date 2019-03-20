@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 INDEX VERSION 1.131+U:\Programiranje2\.metadata\.plugins\org.eclipse.jdt.core
 146530134.index
 1394848873.index
@@ -17,3 +18,15 @@ INDEX VERSION 1.131+U:\Programiranje2\.metadata\.plugins\org.eclipse.jdt.core
 72535324.index
 2857209468.index
 1713295793.index
+=======
+INDEX VERSION 1.131+C:\Users\Anamari\Documents\Programiranje2\.metadata\.plugins\org.eclipse.jdt.core
+1711765710.index
+282728206.index
+1094395942.index
+1000147613.index
+554663733.index
+2674475739.index
+3972726963.index
+314467495.index
+2591297871.index
+>>>>>>> a5054b5ef52fbaced2e7aefe6111b386acb7fcc3
