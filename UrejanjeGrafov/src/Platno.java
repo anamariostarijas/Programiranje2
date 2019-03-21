@@ -76,17 +76,23 @@ public class Platno extends JPanel implements MouseMotionListener, MouseListener
 		//glavna metoda, ki je namenjena risanju
 		//poklice se vsakic, ko obnovimo okno
 		//sami jo poklicemo, ce zelimo graf spremeniti
+		
+		//dobimo vse kostruktorje iz paintComponent superclassa
 		super.paintComponent(g); 
 		
+		//nastavimo barvo ozadja platna
 		setBackground(Color.white); //this.setBackground
 		Graphics2D g2 = (Graphics2D)g;
 		
+		//èe nimamo grafa, naj se ne zgodi niè
 		if (g == null) return;
+		
+		//povezave in toèke grafa
 		g.setColor(barvaPovezave);
 		g.setColor(barvaTocke);
-		
 		g2.setStroke(new BasicStroke(debelinaPovezave));
 		
+		//narišemo povezave med toèkami in njihovimi sosedi
 		for (Tocka v : graf.tocke.values()) {
 			for (Tocka u : v.sosedi)
 				if (v.ime.compareTo(u.ime) > 0) {//poz, ce prvi vecji od drugega, neg sicer
@@ -101,6 +107,7 @@ public class Platno extends JPanel implements MouseMotionListener, MouseListener
 			if (v == aktivnaTocka) g.setColor(barvaAktivneTocke);
 			else if (izbraneTocke.contains(v)) g.setColor(barvaIzbraneTocke);
 			else g.setColor(barvaTocke);
+			//risanje toèk
 			g.fillOval(round(v.x-polmer), round(v.y-polmer), premer, premer);
 			g.setColor(barvaRoba);
 			g.drawOval(round(v.x-polmer), round(v.y-polmer), premer, premer);
@@ -110,6 +117,7 @@ public class Platno extends JPanel implements MouseMotionListener, MouseListener
 	}
 	
 	private static int round(double s) {
+		//dodatna metoda za zaokroževanje
 		return (int)(s + 0.5);
 	}
 
@@ -137,20 +145,14 @@ public class Platno extends JPanel implements MouseMotionListener, MouseListener
 				}
 			}
 		}
-		repaint();
-		
+		repaint();	
 	}
 
 	@Override
-	public void keyReleased(KeyEvent e) {
-		
-	}
+	public void keyReleased(KeyEvent e) {}
 
 	@Override
-	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void keyTyped(KeyEvent e) {}
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
@@ -201,8 +203,6 @@ public class Platno extends JPanel implements MouseMotionListener, MouseListener
 			aktivnaTocka = najblizja;
 			repaint();
 		}
-		
-		
 	}
 
 	@Override
@@ -218,14 +218,10 @@ public class Platno extends JPanel implements MouseMotionListener, MouseListener
 			else {
 				if (izbraneTocke.contains(aktivnaTocka)) izbraneTocke.remove(aktivnaTocka);
 				else izbraneTocke.add(aktivnaTocka);
-				
-			}
-			
+			}	
 		}
 		aktivnaTocka = null;
 		repaint();
-		
-		
 	}
 
 }
