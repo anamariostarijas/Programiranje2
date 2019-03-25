@@ -36,7 +36,7 @@ public class Okno extends JFrame implements ActionListener {
 		//orodja postavimo v orodjarno
 		
 		zbrisiVse = new JButton("Zbrisi vse");
-		zbrisiVse.addActionListener(this);
+		zbrisiVse.addActionListener(this); //this je za to okno
 		
 		sirinaSlider = new JSlider(JSlider.HORIZONTAL, 1, 11, 6);
 		orodjarna.add(sirinaSlider);
