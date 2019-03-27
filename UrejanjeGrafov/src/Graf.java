@@ -1,3 +1,8 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.*;
 
 public class Graf {
@@ -138,6 +143,67 @@ public class Graf {
 			v.y = y + r*Math.sin(kot); 		//koordinatna os y je obrnjena navzdol
 			++i;
 		}
+	}
+	
+	public void shrani(String ime) {
+		try {
+			PrintWriter dat = new PrintWriter(new FileWriter(ime));
+			for (Tocka v : tocke.values()) {
+				dat.println(v.ime + ": " + v.x + " " + v.y);
+			}
+			dat.println("***");
+			for (Tocka v : tocke.values()) {
+				dat.println(v + ": ");
+				for (Tocka u : v.sosedi) {
+					dat.print(" " + u.ime);
+				}
+				dat.println();
+			}
+			dat.close();
+		} catch (IOException exn){
+			exn.printStackTrace();
+		}
+	}
+	
+	public static Graf preberi(String ime) {
+		//staticna, ker ni odvisn od tega, na kaksnem grafu jo poklicemo
+		//ni nujno, da jo klicemo na objektu, lahko na razredu
+		try {
+			Graf graf = new Graf();
+			BufferedReader dat = new BufferedReader(new FileReader(ime));
+			int blok = 1;
+			while (dat.ready()) {
+				String vrstica = dat.readLine().trim();
+				if (vrstica.equals("")) continue;
+				String[] info = vrstica.split("[ :]+"); //presledek ali dvopicje
+				if (vrstica.equals("***")) blok = 2;
+				else if (blok == 1) {
+					Tocka v = graf.dodajTocko(info[0]);
+					v.x = Double.parseDouble(info[1]);
+					v.y = Double.parseDouble(info[2]);
+					
+				}
+				else if (blok == 2) {
+					Tocka v = graf.tocka(info[0]);
+					if (v == null) v = graf.dodajTocko(info[0]);
+					for (int i = 1; i < info.length; ++i) {
+						Tocka u = graf.tocka(info[0]);
+						if (u == null) u = graf.dodajTocko(info[0]);	
+						graf.dodajPovezavo(v, u);
+					}
+					
+				}
+				
+				
+			}
+			dat.close();
+			return graf;
+		}
+		catch (IOException e){
+			e.printStackTrace();
+			return null;
+		}
+		
 	}
 	
 	

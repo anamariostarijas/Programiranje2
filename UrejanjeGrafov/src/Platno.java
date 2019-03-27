@@ -61,7 +61,9 @@ public class Platno extends JPanel implements MouseMotionListener, MouseListener
 	
 	public void narisi(Graf g) {
 		//nastavi nov graf za risanje
-		graf = g; 
+		graf = g;
+		aktivnaTocka = null;
+		izbraneTocke.clear();
 		repaint(); //od sistema izve, kaj je Graphics g in poklice paintComponent()
 	}
 	
@@ -104,7 +106,6 @@ public class Platno extends JPanel implements MouseMotionListener, MouseListener
 		int premer = round(2*polmer);
 		
 		for (Tocka v : graf.tocke.values()) {
-			//nastavimo posebne barve za aktivne tocke in izbrane tocke
 			if (v == aktivnaTocka) g.setColor(barvaAktivneTocke);
 			else if (izbraneTocke.contains(v)) g.setColor(barvaIzbraneTocke);
 			else g.setColor(barvaTocke);
@@ -157,16 +158,12 @@ public class Platno extends JPanel implements MouseMotionListener, MouseListener
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		
 		if (graf == null) return;
-		
 		if (aktivnaTocka != null) {
-			//ce imamo aktivno tocko, se ta premika skupaj z misko, od zadnje koordinate naprej
 			aktivnaTocka.x += e.getX() - premikX;
 			aktivnaTocka.y += e.getY() - premikY;
 		}
 		else {
-			//ce nimamo aktivne tocke, se morajo vse izbrane tocke premikati skupaj z misko
 			for (Tocka v : izbraneTocke) {
 				v.x += e.getX() - premikX;
 				v.y += e.getY() - premikY;
@@ -192,25 +189,19 @@ public class Platno extends JPanel implements MouseMotionListener, MouseListener
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		
-		if (graf == null) return;
-		
+		if (graf == null) return; 
 		klikX = premikX = e.getX();
 		klikY = premikY = e.getY();
-		
 		Tocka najblizja = null;
 		double razdalja = Double.POSITIVE_INFINITY;
-		
 		for (Tocka v: graf.tocke.values()) {
 			double r = Math.sqrt(Math.pow(klikX - v.x, 2) + Math.pow(klikY - v.y, 2));
 			if (r < razdalja) {
-				//ce kliknemo na tocko, ta postane aktivna (drugace obarvana)
 				razdalja = r;
 				najblizja = v;
 			}
 		}
 		if (razdalja < polmer + 5) {
-			//ce ne kliknemo direktno na tocko, postane aktivna najblizja
 			aktivnaTocka = najblizja;
 			repaint();
 		}
@@ -218,25 +209,17 @@ public class Platno extends JPanel implements MouseMotionListener, MouseListener
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		
 		if (graf == null) return;
-		
 		if (e.getX() == klikX && e.getY() == klikY) {
-			//med pritiskom in spustom se miska ne premakne
 			if (aktivnaTocka == null) {
-				//ce ni aktivne tocke, doda novo in jo poveze z vsemi izbranimi
 				Tocka v = graf.dodajTocko();
 				v.x = e.getX();
 				v.y = e.getY();
 				for (Tocka u : izbraneTocke) graf.dodajPovezavo(v, u);
 			}
-			
-			else { //imamo aktivno tocko
-				//tocka, ki je bila oznacena, po spustu miske ni vec oznacena
-				if (izbraneTocke.contains(aktivnaTocka)) izbraneTocke.remove(aktivnaTocka); 
-				//ce tocka prej ni bila oznacena sedaj je
+			else {
+				if (izbraneTocke.contains(aktivnaTocka)) izbraneTocke.remove(aktivnaTocka);
 				else izbraneTocke.add(aktivnaTocka);
-				
 			}	
 		}
 		aktivnaTocka = null;
