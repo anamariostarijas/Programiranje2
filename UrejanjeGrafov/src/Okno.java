@@ -1,5 +1,4 @@
 import java.awt.event.ActionEvent;
-import java.util.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
@@ -14,7 +13,9 @@ public class Okno extends JFrame implements ActionListener {
 	private JMenuItem menuPrazen, menuCikel, menuPoln, menuPolnDvodelen;
 	private JMenuItem menuBarvaPovezave, menuBarvaTocke, menuBarvaAktivneTocke, menuBarvaIzbraneTocke;
 	private JMenuItem menuDebelinaPovezave, menuDebelinaRoba;
-	private JMenuItem menuPolmer;
+	private JMenuItem menuPolmer, NastaviNastavitve;
+	
+	Nastavitve nastavitve;
 	
 	public Okno() {
 		super();
@@ -41,6 +42,7 @@ public class Okno extends JFrame implements ActionListener {
 		menuDebelinaPovezave = new JMenuItem("Debelina povezave ...");
 		menuDebelinaRoba = new JMenuItem("Debelina roba ...");
 		menuPolmer = new JMenuItem("Polmer tocke ...");
+		NastaviNastavitve = new JMenuItem("Polmer tocke ...");
 		
 		menuDatoteka.add(menuOdpri);
 		menuDatoteka.add(menuShrani);
@@ -57,6 +59,7 @@ public class Okno extends JFrame implements ActionListener {
 		menuNastavitve.add(menuDebelinaPovezave);
 		menuNastavitve.add(menuPolmer);
 		menuNastavitve.addSeparator();
+		menuNastavitve.add(NastaviNastavitve);
 		
 		menubar.add(menuNastavitve);
 		menubar.add(menuDatoteka);
@@ -78,6 +81,7 @@ public class Okno extends JFrame implements ActionListener {
 		menuDebelinaRoba.addActionListener(this);
 		menuDebelinaPovezave.addActionListener(this);
 		menuPolmer.addActionListener(this);
+		NastaviNastavitve.addActionListener(this);
 	}
 	
 	@Override
@@ -106,6 +110,100 @@ public class Okno extends JFrame implements ActionListener {
 		}
 		else if (source == menuShrani) {
 			
+		}
+		else if (source == menuBarvaPovezave) {
+			Color barva = JColorChooser.showDialog(this, "Barva povezave", platno.barvaPovezave);
+			if (barva != null) {
+				platno.barvaPovezave = barva;
+				platno.repaint();
+			}
+		}
+		else if (source == menuBarvaTocke) {
+			Color barva = JColorChooser.showDialog(this, "Barva tocke", platno.barvaTocke);
+			if (barva != null) {
+				platno.barvaTocke = barva;
+				platno.repaint();
+			}
+		}
+		else if (source == menuBarvaAktivneTocke) {
+			Color barva = JColorChooser.showDialog(this, "Barva aktivne tocke", platno.barvaAktivneTocke);
+			if (barva != null) {
+				platno.barvaAktivneTocke = barva;
+				platno.repaint();
+			}
+		}
+		else if (source == menuBarvaIzbraneTocke) {
+			Color barva = JColorChooser.showDialog(this, "Barva izbrane tocke", platno.barvaIzbraneTocke);
+			if (barva != null) {
+				platno.barvaIzbraneTocke = barva;
+				platno.repaint();
+			}
+		}
+		else if (source == menuPrazen) {
+			String niz = JOptionPane.showInputDialog(this, "Število toèk:");
+			if (niz != null && niz.matches("\\d+")) {
+				Graf g = Graf.prazen(Integer.parseInt(niz));
+				g.razporedi(300, 300, 250);
+				platno.narisi(g);
+			}
+		}
+		else if (source == menuCikel) {
+			String niz = JOptionPane.showInputDialog(this, "Število toèk:");
+			if (niz != null && niz.matches("\\d+")) {
+				Graf g = Graf.cikel(Integer.parseInt(niz));
+				g.razporedi(300, 300, 250);
+				platno.narisi(g);
+			}
+		}
+		else if (source == menuDebelinaPovezave) {
+			String niz = JOptionPane.showInputDialog(this, "Debelina povezave:", platno.debelinaPovezave);
+			if (niz != null && niz.matches("\\d*\\.?\\d+")) { // regularni izraz za realno število
+				platno.debelinaPovezave = Float.parseFloat(niz);
+				platno.repaint();
+			}
+		}
+		else if (source == menuPoln) {
+			String niz = JOptionPane.showInputDialog(this, "Število toèk:");
+			if (niz != null && niz.matches("\\d+")) {
+				Graf g = Graf.poln(Integer.parseInt(niz));
+				g.razporedi(300, 300, 250);
+				platno.narisi(g);
+			}
+		}
+		else if (source == menuDebelinaRoba) {
+			String niz = JOptionPane.showInputDialog(this, "Debelina roba:", platno.debelinaRoba);
+			if (niz != null && niz.matches("\\d*\\.?\\d+")) { // regularni izraz za realno število
+				platno.debelinaRoba = Float.parseFloat(niz);
+				platno.repaint();
+			}
+		}
+		else if (source == menuPolmer) {
+			String niz = JOptionPane.showInputDialog(this, "Debelina povezave:", platno.polmer);
+			if (niz != null && niz.matches("\\d*\\.?\\d+")) { // regularni izraz za realno število
+				platno.polmer = Double.parseDouble(niz);
+				platno.repaint();
+			}
+		}
+		else if (source == menuPolnDvodelen) {
+			JTextField prva = new JTextField();
+			JTextField druga = new JTextField();
+			JComponent[] polja = {
+					new JLabel("Velikost prve množice"), prva, //JLabel in JTextField sta podrazreda JComponent
+					new JLabel("Velikost druge množice"), druga
+			};
+			int rez = JOptionPane.showConfirmDialog(this, polja, "Input", JOptionPane.OK_CANCEL_OPTION);
+			//Input je nalov dialognega okna, ok cancel option sta dva gumba
+			if (rez == JOptionPane.OK_OPTION && prva.getText().matches("\\d+") && druga.getText().matches("\\d+")) {
+				int n = Integer.parseInt(prva.getText());
+				int m = Integer.parseInt(druga.getText());
+				Graf g = Graf.polnDvodelen(n, m);
+				g.razporedi(300, 300, 250);
+				platno.narisi(g);
+			}
+		}
+		else if (source == NastaviNastavitve) {
+			Nastavitve nastavitve = new Nastavitve(this);
+			nastavitve.setVisible(true);
 		}
 	}
 	}

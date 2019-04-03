@@ -6,15 +6,15 @@ public class Test {
 		
 		graf.izpis();
 		
-		Graf g = new Graf();
-		Tocka a = g.dodajTocko("a");
-		Tocka b = g.dodajTocko("b");
-		Tocka c = g.dodajTocko("c");
-		Tocka d = g.dodajTocko();
-		g.dodajPovezavo(a, b);
-		g.dodajPovezavo(b, c);
-		g.dodajPovezavo(c, d);
-		g.izpis();
+		//Graf g = new Graf();
+		//Tocka a = g.dodajTocko("a");
+		//Tocka b = g.dodajTocko("b");
+		//Tocka c = g.dodajTocko("c");
+		//Tocka d = g.dodajTocko();
+		//g.dodajPovezavo(a, b);
+		//g.dodajPovezavo(b, c);
+		//g.dodajPovezavo(c, d);
+		//g.izpis();
 		
 		Okno okno = new Okno();
 		okno.pack();

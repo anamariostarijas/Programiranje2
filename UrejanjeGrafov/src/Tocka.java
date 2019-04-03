@@ -7,6 +7,13 @@ public class Tocka {
 	Set<Tocka> sosedi; //genericen tip<..>, sosedje tock so tocke
 	double x,y;
 	
+	static int stevec = 0; // stejemo, koliko objektov tega razreda smo naredili
+	//static Graf g = new Graf();
+	//static {  ta metoda se poklièe samo na zaèetku
+	//	g = new Graf();
+	//	g.dodajTocko();
+	//}
+	
 	//KONSTRUKTOR
 	public Tocka(String ime) { //konstruktorji nimajo tipa pred imenom
 		this.ime = ime; //isto kot self. v pythonu, tako se sklièemo na komponento v tem razredu in mu dali 
@@ -16,6 +23,8 @@ public class Tocka {
 		//--> HashSet
 		//tudi lahko: this.sosedi, èe nimamo 2 isti imeni, raje ne uporabljamo
 		x = y = 0;
+		
+		//++stevec;
 	}
 	
 	//METODE
